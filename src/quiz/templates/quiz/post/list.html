@@ -1,0 +1,75 @@
+{% extends "piazza/base.html" %}
+{% load static %}
+
+{% block title %}My Blog{% endblock %}
+{% block content %}
+
+<script>
+  function checktopic(id){
+    checkbox = document.getElementById(id)
+    label = document.getElementById("label_"+id.id)
+    if (id.checked) {
+      label.style.fontWeight = "normal"
+    } else {
+      label.style.fontWeight = "bold"
+    }
+  }
+
+</script>
+<h1>My Blog</h1>
+
+<section>
+<form method="post" id="postform">
+  <div class="container">
+    <div class="auth">
+      {{ post_form.author.errors }}
+      {{ post_form.author }}
+    </div>
+    {% for checkbox in post_form.topics %}
+    <div class="div_{{ checkbox.id_for_label }}">
+      <span style="display:none"> {{ checkbox.tag }} </span>
+      <label for="{{ checkbox.id_for_label }}" id="label_{{ checkbox.id_for_label }}" onclick="checktopic({{ checkbox.id_for_label }})" style="font-weight:normal">
+        #{{ checkbox.choice_label }}
+      </label>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div>
+
+  {{ post_form.body.errors }}
+  {{ post_form.body }}
+  </div>
+
+  {% csrf_token %}
+  <div><input type="submit" value="Add post"></div>
+</form>
+</section>
+
+{% for post in posts %}
+<section id="{{ post.get_id }}">
+  <a href="{{ post.get_url }}">
+    <p class="header">
+      <span class="user">@{{ post.author }}</span> · <span class="date">{{ post.timestamp }}</span>
+        {% for topic in post.topics.all %}
+          #<span class="topics">{{ topic.name }}</span>
+        {% endfor %}
+        {% if post.islive %}
+          <span class="status">(Live)</span>
+        {% else %}
+          <span class="status">(Expired)</span>
+        {% endif %}
+
+    </p>
+    <p class="post">
+      {{ post.body | truncatewords:30 }}...
+    </p>
+    <p class="meta">
+    <span class="meta"><img src="{% static "img/comments.png" %}" style="position:relative;top:3px;"> {{ post.comments|length }}</span>
+    <span class="meta"><img src="{% static "img/like.png" %}" > {{ post.likes|length }}</span>
+    <span class="meta"><img src="{% static "img/dislike.png" %}" style="position:relative;top:5px;"> {{ post.dislikes|length }}</span>
+    </p>
+  </a>
+</section>
+{% endfor %}
+{% endblock %}
