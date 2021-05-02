@@ -7,340 +7,559 @@
 {% block content %}
 
 
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+
+function next(page,fields){
+
+  valid = true;
+
+  fields.forEach((item, i) => {
+    if (item.length <= 1){
+      /* Validation for Radio buttons */
+      filled = document.querySelector('input[name='+item+']:checked') != null
+      if (!filled){
+        // Id of element that need to be filled
+        valid = false;
+        id = item
+        document.getElementById("error-"+id).style.display="block"
+        d3.select('#error-'+id).text("Please fill out all required fields")
+        document.getElementById("border-"+id).style.cssText="border: 1px solid; border-color:red;"
+      }
+    } else {
+
+      /* Validation for Checkboxes */
+      filled = false;
+      item.forEach((checkbox, j) => {
+        filled = filled || document.getElementById(checkbox).checked
+      });
+        if (!filled){
+          // Id of element that need to be filled
+          valid = false;
+          id = page.toString()+"-"+(i+1).toString()
+          document.getElementById("error-"+id).style.display="block"
+          d3.select('#error-'+id).text("Please fill out all required fields")
+          document.getElementById("border-"+id).style.cssText="border: 1px solid; border-color:red;"
+        }
+    }
+  });
+
+if (valid){
+  // Flip the page if valid
+  document.getElementById("section-"+page.toString()).style.display="none"
+  document.getElementById("section-"+(page+1).toString()).style.display="block"
+}
+}
+
+function prev(page){
+
+  if (page > 1){
+    document.getElementById("section-"+page.toString()).style.display="none"
+    document.getElementById("section-"+(page-1).toString()).style.display="block"
+  }
+
+}
 
 
-  <form id="form280184801" name='form280184801' role="form" action='' method='POST' data-formactiontype="0" data-inputbox=".t-input-group" class="t-form js-form-proccess t-form_inputs-total_13 " data-success-callback="t678_onSuccess">
-  <div class="js-successbox t-form__successbox t-text t-text_md" style="display:none;"></div>
-  <div class="t-form__inputsbox">
-    <div class="t-input-group t-input-group_rd" data-input-lid="1493283059688">
-
-      <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1493283059688" style="color:#000000;font-weight:400;">How much time do you have to keep fit in a week?</div>
-      <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1493283059688" style="color:#000000;">Pick one answer that resonates the most.</div>
-
-      <div class="t-input-block">
-        <div class="t-radio__wrapper">
-          {% for field in quiz_form.time %}
-          <label class="t-radio__control t-text t-text_xs" style="color: #000000">
-            {{ field.tag }}
-            <div class="t-radio__indicator" ></div>
-            {{ field.choice_label}}
-          </label>
-          {% endfor %}
-        </div>
-        <div class="t-input-error"></div>
-      </div>
-    </div>
-
-    <div class="t-input-group t-input-group_rd" data-input-lid="1614627208191">
-      <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1614627208191" style="color:#000000;font-weight:400;">How much are you willing to spend on fitness ?</div>
-      <div class="t-input-block">
-        <div class="t-radio__wrapper">
-          {% for field in quiz_form.money %}
-          <label class="t-radio__control t-text t-text_xs" style="color: #000000">
-            {{ field.tag }}
-            <div class="t-radio__indicator" ></div>
-            {{ field.choice_label}}
-          </label>
-          {% endfor %}
-        </div>
-        <div class="t-input-error"></div>
-      </div>
-    </div>
-
-    <div class="t-input-group t-input-group_rd" data-input-lid="1614627204391">
-      <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1614627204391" style="color:#000000;font-weight:400;">Who do you want to exercise with?</div>
-      <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1614627204391" style="color:#000000;">Pick all that apply.</div>
-        <div class="t-input-block">
-
-          <input type="hidden" class="t-checkboxes__hiddeninput js-tilda-rule" name="Who do you want to exercise with" tabindex="-1" value="" data-tilda-req="1">
-
-          <div class="t-checkboxes__wrapper">
+</script>
 
 
-            <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-            {{ quiz_form.alone|add_class:"t-checkbox" }}
-            <div class="t-checkbox__indicator" ></div>Alone</label>
+<form id="form280184801" name='form280184801' role="form" action='' method='POST' data-formactiontype="0" data-inputbox=".t-input-group" class="t-form js-form-proccess t-form_inputs-total_13 " data-success-callback="t678_onSuccess">
 
-            <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-            {{ quiz_form.group|add_class:"t-checkbox" }}
-            <div class="t-checkbox__indicator" ></div>With friends or group</label>
+    <section id="section-1">
+    <div class="js-successbox t-form__successbox t-text t-text_md" style="display:none;"></div>
+    <div class="t-form__inputsbox">
+        <div class="t-input-group t-input-group_rd" data-input-lid="1493283059688">
 
-            <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-            {{ quiz_form.family|add_class:"t-checkbox" }}
-            <div class="t-checkbox__indicator" ></div>With family</label>
-          </div>
-          <script>
-              $(document).ready(function(){ function t_input_checkboxes_updateval(recid,lid){ var qel=$('#rec'+recid).find('[data-input-lid="'+lid+'"]'); var val=""; qel.find('.t-checkbox:checked').each(function(){ if(val!=""){val+="; ";} val += $(this).val(); }); qel.find('.t-checkboxes__hiddeninput').val(val); } function t_input_checkboxes_init(recid,lid){ var qel=$('#rec'+recid).find('[data-input-lid="'+lid+'"]'); qel.find('.t-checkbox__control').click(function() { t_input_checkboxes_updateval(recid,lid); }); t_input_checkboxes_updateval(recid,lid); } t_input_checkboxes_init('280184801','1614627204391'); });
-          </script>
-          <div class="t-input-error"></div>
-        </div>
-      </div>
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1493283059688" style="color:#000000;font-weight:400;">How much time do you have to keep fit in a week?</div>
+            <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1493283059688" style="color:#000000;">Pick one answer that resonates the most.</div>
 
-      <div class="t-input-group t-input-group_st" data-input-lid="1495027254430">
-        <div class="t-input-block">
-          <div class="t-form-step-divider " data-tilda-form-step-btn-next="Next" data-tilda-form-step-btn-prev="Back"></div>
-          <div class="t-input-error"></div>
-        </div>
-      </div>
-      <div class="t-input-group t-input-group_rd" data-input-lid="1494858943227">
-        <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1494858943227" style="color:#000000;font-weight:400;">Would you ever try a contact sport?</div>
-        <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1494858943227" style="color:#000000;">E.g. rugby.</div>
-        <div class="t-input-block">
-          <div class="t-radio__wrapper">
-            {% for field in quiz_form.contactsport %}
-            <label class="t-radio__control t-text t-text_xs" style="color: #000000">
-              {{ field.tag }}
-              <div class="t-radio__indicator" ></div>
-              {{ field.choice_label}}
-            </label>
-            {% endfor %}
-          </div>
-          <div class="t-input-error"></div>
-        </div>
-      </div>
-      <div class="t-input-group t-input-group_rd" data-input-lid="1495040492013">
-        <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1495040492013" style="color:#000000;font-weight:400;">Which one do you enjoy more?</div>
-        <div class="t-input-block">
-          <div class="t-radio__wrapper">
-            {% for field in quiz_form.how %}
-            <label class="t-radio__control t-text t-text_xs" style="color: #000000">
-              {{ field.tag }}
-              <div class="t-radio__indicator" ></div>
-              {{ field.choice_label}}
-            </label>
-            {% endfor %}
-          </div>
-          <div class="t-input-error"></div>
-        </div>
-      </div>
-      <div class="t-input-group t-input-group_rd" data-input-lid="1613072784627">
-      <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072784627" style="color:#000000;font-weight:400;">What is your existing fitness level?</div>
-      <div class="t-input-block">
-        <div class="t-radio__wrapper">
-          {% for field in quiz_form.fitnesslevel %}
-          <label class="t-radio__control t-text t-text_xs" style="color: #000000">
-            {{ field.tag }}
-            <div class="t-radio__indicator" ></div>
-            {{ field.choice_label}}
-          </label>
-          {% endfor %}
-        </div>
-        <div class="t-input-error"></div>
-      </div>
-    </div>
-    <div class="t-input-group t-input-group_rd" data-input-lid="1613072823372">
-      <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072823372" style="color:#000000;font-weight:400;">Which one best describes you, for your gender?</div>
-      <div class="t-input-block">
-        <div class="t-radio__wrapper">
-          {% for field in quiz_form.height %}
-          <label class="t-radio__control t-text t-text_xs" style="color: #000000">
-            {{ field.tag }}
-            <div class="t-radio__indicator" ></div>
-            {{ field.choice_label}}
-          </label>
-          {% endfor %}
-        </div>
-        <div class="t-input-error"></div>
-      </div>
-    </div>
-    <div class="t-input-group t-input-group_st" data-input-lid="1613072851915">
-      <div class="t-input-block">
-        <div class="t-form-step-divider " data-tilda-form-step-btn-next="Next" data-tilda-form-step-btn-prev="Back"></div>
-        <div class="t-input-error"></div>
-      </div>
-    </div>
-    <div class="t-input-group t-input-group_rd" data-input-lid="1613072882477">
-      <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072882477" style="color:#000000;font-weight:400;">Which of these are your superpowers?</div>
-      <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613072882477" style="color:#000000;">Choose as many as apply.</div>
-      <div class="t-input-block">
-        <input type="hidden" class="t-checkboxes__hiddeninput js-tilda-rule" name="Which of these are your superpowers" tabindex="-1" value="" data-tilda-req="1">
-        <div class="t-checkboxes__wrapper">
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.flexibility|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Flexibility</label>
+            <div class="t-input-block" >
+                <div class="t-radio__wrapper" id="border-time">
+                    {% csrf_token %}
+                    {% for field in quiz_form.time %}
+                    <label class="t-radio__control t-text t-text_xs" style="color: #000000">
+                        {{ field.tag }}
+                        <div class="t-radio__indicator"></div>
+                        {{ field.choice_label}}
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="t-input-error" id="error-time" ></div>
 
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.focus|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Focus</label>
-
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.lower_body_strength|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Lower body strength</label>
-
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.balance|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Balance</label>
-
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.endurance|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Endurance</label>
+            </div>
         </div>
 
-        <script> $(document).ready(function(){ function t_input_checkboxes_updateval(recid,lid){ var qel=$('#rec'+recid).find('[data-input-lid="'+lid+'"]'); var val=""; qel.find('.t-checkbox:checked').each(function(){ if(val!=""){val+="; ";} val += $(this).val(); }); qel.find('.t-checkboxes__hiddeninput').val(val); } function t_input_checkboxes_init(recid,lid){ var qel=$('#rec'+recid).find('[data-input-lid="'+lid+'"]'); qel.find('.t-checkbox__control').click(function() { t_input_checkboxes_updateval(recid,lid); }); t_input_checkboxes_updateval(recid,lid); } t_input_checkboxes_init('280184801','1613072882477'); }); </script>
-
-        <div class="t-input-error"></div>
-      </div>
-    </div>
-    <div class="t-input-group t-input-group_rd" data-input-lid="1613072925827">
-      <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072925827" style="color:#000000;font-weight:400;">Which of the below are your weaknesses?</div>
-      <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613072925827" style="color:#000000;">Tick all that are relevant.</div>
-      <div class="t-input-block"> <input type="hidden" class="t-checkboxes__hiddeninput js-tilda-rule" name="Which of the below are your weaknesses" tabindex="-1" value="" data-tilda-req="1">
-        <div class="t-checkboxes__wrapper">
-
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.weak_speed|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Speed</label>
-
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.weak_hand_eye_coordination|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Hand-eye coordination</label>
-
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.weak_upper_body_stregth|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Upper body strength</label>
-
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.weak_foot_eye_coordination|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Foot-eye coordination</label>
-
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.weak_being_in_water|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Being in water</label>
+        <div class="t-input-group t-input-group_rd" data-input-lid="1614627208191">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1614627208191" style="color:#000000;font-weight:400;">How much are you willing to spend on fitness ?</div>
+            <div class="t-input-block">
+                <div class="t-radio__wrapper" id="border-money">
+                    {% for field in quiz_form.money %}
+                    <label class="t-radio__control t-text t-text_xs" style="color: #000000">
+                        {{ field.tag }}
+                        <div class="t-radio__indicator"></div>
+                        {{ field.choice_label}}
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="t-input-error" id="error-money"></div>
+            </div>
         </div>
 
-        <script> $(document).ready(function(){ function t_input_checkboxes_updateval(recid,lid){ var qel=$('#rec'+recid).find('[data-input-lid="'+lid+'"]'); var val=""; qel.find('.t-checkbox:checked').each(function(){ if(val!=""){val+="; ";} val += $(this).val(); }); qel.find('.t-checkboxes__hiddeninput').val(val); } function t_input_checkboxes_init(recid,lid){ var qel=$('#rec'+recid).find('[data-input-lid="'+lid+'"]'); qel.find('.t-checkbox__control').click(function() { t_input_checkboxes_updateval(recid,lid); }); t_input_checkboxes_updateval(recid,lid); } t_input_checkboxes_init('280184801','1613072925827'); }); </script>
+        <div class="t-input-group t-input-group_rd" data-input-lid="1614627204391">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1614627204391" style="color:#000000;font-weight:400;">Who do you want to exercise with?</div>
+            <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1614627204391" style="color:#000000;">Pick all that apply.</div>
+            <div class="t-input-block">
 
-        <div class="t-input-error"></div>
-      </div>
-    </div>
-    <div class="t-input-group t-input-group_rd" data-input-lid="1613072966849">
-      <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072966849" style="color:#000000;font-weight:400;">Which of the below characteristics describe you?</div>
-      <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613072966849" style="color:#000000;">Can be multiple.</div>
-      <div class="t-input-block">
-        <input type="hidden" class="t-checkboxes__hiddeninput js-tilda-rule" name="Which of the below characteristics describe you" tabindex="-1" value="" data-tilda-req="1">
-        <div class="t-checkboxes__wrapper">
+                <input type="hidden" class="t-checkboxes__hiddeninput js-tilda-rule" name="Who do you want to exercise with" tabindex="-1" value="" data-tilda-req="1">
 
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.perfectionist|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Perfectionist</label>
+                <div class="t-checkboxes__wrapper" id="border-1-3">
 
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.patient|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Patient</label>
 
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.high_energy|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>High-energy</label>
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.alone|add_class:"t-checkbox"|attr:"id:alone" }}
+                        <div class="t-checkbox__indicator"></div>Alone
+                    </label>
 
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.competitive|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Competitive</label>
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.group|add_class:"t-checkbox"|attr:"id:group" }}
+                        <div class="t-checkbox__indicator"></div>With friends or group
+                    </label>
 
-          <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-          {{ quiz_form.thrive_under_pressure|add_class:"t-checkbox" }}
-          <div class="t-checkbox__indicator" ></div>Thrive under pressure</label>
-
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.family|add_class:"t-checkbox"|attr:"id:family" }}
+                        <div class="t-checkbox__indicator"></div>With family
+                    </label>
+                </div>
+                <div class="t-input-error" id="error-1-3"></div>
+            </div>
         </div>
-        <script> $(document).ready(function(){ function t_input_checkboxes_updateval(recid,lid){ var qel=$('#rec'+recid).find('[data-input-lid="'+lid+'"]'); var val=""; qel.find('.t-checkbox:checked').each(function(){ if(val!=""){val+="; ";} val += $(this).val(); }); qel.find('.t-checkboxes__hiddeninput').val(val); } function t_input_checkboxes_init(recid,lid){ var qel=$('#rec'+recid).find('[data-input-lid="'+lid+'"]'); qel.find('.t-checkbox__control').click(function() { t_input_checkboxes_updateval(recid,lid); }); t_input_checkboxes_updateval(recid,lid); } t_input_checkboxes_init('280184801','1613072966849'); }); </script>
+        <div class="t-form__submit">
 
-        <div class="t-input-error"></div>
-      </div>
-    </div>
-    <div class="t-input-group t-input-group_rd" data-input-lid="1613072996723">
-    <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072996723" style="color:#000000;font-weight:400;">Which of these workout environments do you enjoy?</div>
-    <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613072996723" style="color:#000000;">Can be multiple.</div>
-    <div class="t-input-block">
-      <input type="hidden" class="t-checkboxes__hiddeninput js-tilda-rule" name="Which of these workout environments do you enjoy" tabindex="-1" value="" data-tilda-req="1">
-      <div class="t-checkboxes__wrapper">
+          <button class="t-btn t-btn_sm t-form__screen-btn-prev" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; float:left;">
+                <table style="width:100%; height:100%;">
+                    <tbody>
+                        <tr>
+                            <td>Back</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </button>
 
-        <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-        {{ quiz_form.tried_and_tested|add_class:"t-checkbox" }}
-        <div class="t-checkbox__indicator" ></div>Tried and tested</label>
+            <button class="t-btn t-btn_sm t-form__screen-btn-next" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;float:right;" onclick="next(1,[['time'],['money'],['alone','group','family']])">
+                <table style="width:100%; height:100%;">
+                    <tbody>
+                        <tr>
+                            <td>Next</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </button>
 
-        <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-        {{ quiz_form.ever_changing|add_class:"t-checkbox" }}
-        <div class="t-checkbox__indicator" ></div>Ever-changing</label>
 
-        <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-        {{ quiz_form.centre_of_attention|add_class:"t-checkbox" }}
-        <div class="t-checkbox__indicator" ></div>Where I am centre of attention</label>
+            <div class="t-form__screen-current-view t-name">
+                <div class="t-form__screen-number-container"><span class="t-form__screen-number_opacity">1</span><span>/</span><span>4</span></div>
 
-        <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-        {{ quiz_form.express_myself|add_class:"t-checkbox" }}
-        <div class="t-checkbox__indicator" ></div>Where I can express myself</label>
 
-        <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
-        {{ quiz_form.adrenaline_fuelled|add_class:"t-checkbox" }}
-        <div class="t-checkbox__indicator" ></div>Adrenaline-fuelled</label>
-      </div>
-      <script> $(document).ready(function(){ function t_input_checkboxes_updateval(recid,lid){ var qel=$('#rec'+recid).find('[data-input-lid="'+lid+'"]'); var val=""; qel.find('.t-checkbox:checked').each(function(){ if(val!=""){val+="; ";} val += $(this).val(); }); qel.find('.t-checkboxes__hiddeninput').val(val); } function t_input_checkboxes_init(recid,lid){ var qel=$('#rec'+recid).find('[data-input-lid="'+lid+'"]'); qel.find('.t-checkbox__control').click(function() { t_input_checkboxes_updateval(recid,lid); }); t_input_checkboxes_updateval(recid,lid); } t_input_checkboxes_init('280184801','1613072996723'); }); </script>
-
-      <div class="t-input-error"></div>
-    </div>
-  </div>
-  <div class="t-input-group t-input-group_st" data-input-lid="1613073047257">
-    <div class="t-input-block">
-      <div class="t-form-step-divider " data-tilda-form-step-btn-next="Next" data-tilda-form-step-btn-prev="Back"></div>
-      <div class="t-input-error"></div>
-    </div>
-  </div>
-  <div class="t-input-group t-input-group_rd" data-input-lid="1613073052328">
-    <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613073052328" style="color:#000000;font-weight:400;">Optional: How do you identify?</div>
-    <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613073052328" style="color:#000000;">This data helps us make the results more precise in the future.</div>
-    <div class="t-input-block">
-      <div class="t-radio__wrapper">
-        {% for field in quiz_form.gender %}
-        <label class="t-radio__control t-text t-text_xs" style="color: #000000">
-          {{ field.tag }}
-          <div class="t-radio__indicator" ></div>
-          {{ field.choice_label}}
-        </label>
-        {% endfor %}
-      </div>
-      <div class="t-input-error"></div>
-    </div>
-  </div>
-  <div class="t-input-group t-input-group_rg" data-input-lid="1613073092310">
-    <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613073092310" style="color:#000000;font-weight:400;">Optional: How old are you?</div>
-    <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613073092310" style="color:#000000;">This data helps us make the results more precise in the future.</div>
-    <div class="t-input-block">
-      <div class="t-range__wrapper">
-
-        <input name="Optional: How old are you" class="t-range js-tilda-rule" type="range" min="5" max="65" step="1" value="1" >
-        <div class="t-range__value-txt t-descr t-descr_xxs" style="display: none;"></div>
-        <div class="t-range__interval-txt-wrapper">
-          <div class="t-range__interval-txt t-range__interval-txt_min t-descr t-descr_xxs" style="color: #000000">5</div>
-          <div class="t-range__interval-txt t-range__interval-txt_max t-descr t-descr_xxs" style="color: #000000">65</div>
+                <svg width="30" height="30" viewport="0 0 100 100">
+                    <circle class="t-form__screen-progress-circle" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="0" stroke-dashoffset="0"></circle>
+                    <circle class="t-form__screen-progress-bar" r="10" cx="15" cy="15" fill="black" stroke-dasharray="62.8319" stroke-dashoffset="47.124" style="stroke-dashoffset: 47.124;"></circle>
+                </svg>
+            </div>
         </div>
-      </div>
+
+        <div >
+            <div class="t-input-block">
 
 
-  <link rel="stylesheet" href="{% static "css/tilda-range-1.0.min.css" %}">
-
-  <script src="{% static "js/tilda-range-1.0.min.js" %}"></script>
-
-  <script type="text/javascript"> $(document).ready(function() { try { setTimeout(function() { t_input_range_init('280184801','1613073092310'); }, 500); } catch (err) {}; }); </script>
 
 
-  <div class="t-input-error"></div> </div> </div>
 
-  <!--[if IE 8]><style>.t-checkbox__control .t-checkbox, .t-radio__control .t-radio { left: 0px; z-index: 1; opacity: 1;
+
+                <div class="t-form-step-divider " data-tilda-form-step-btn-next="Next" data-tilda-form-step-btn-prev="Back"></div>
+                <div class="t-input-error"></div>
+            </div>
+        </div>
+      </section>
+
+      <section id="section-2" style="display:none;">
+        <div class="t-input-group t-input-group_rd" data-input-lid="1494858943227">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1494858943227" style="color:#000000;font-weight:400;">Would you ever try a contact sport?</div>
+            <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1494858943227" style="color:#000000;">E.g. rugby.</div>
+            <div class="t-input-block">
+                <div class="t-radio__wrapper" id="border-contactsport">
+                    {% for field in quiz_form.contactsport %}
+                    <label class="t-radio__control t-text t-text_xs" style="color: #000000">
+                        {{ field.tag }}
+                        <div class="t-radio__indicator"></div>
+                        {{ field.choice_label}}
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="t-input-error" id="error-contactsport"></div>
+            </div>
+        </div>
+        <div class="t-input-group t-input-group_rd" data-input-lid="1495040492013">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1495040492013" style="color:#000000;font-weight:400;">Which one do you enjoy more?</div>
+            <div class="t-input-block">
+                <div class="t-radio__wrapper" id="border-how">
+                    {% for field in quiz_form.how %}
+                    <label class="t-radio__control t-text t-text_xs" style="color: #000000">
+                        {{ field.tag }}
+                        <div class="t-radio__indicator"></div>
+                        {{ field.choice_label}}
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="t-input-error" id="error-how"></div>
+            </div>
+        </div>
+        <div class="t-input-group t-input-group_rd" data-input-lid="1613072784627">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072784627" style="color:#000000;font-weight:400;">What is your existing fitness level?</div>
+            <div class="t-input-block">
+                <div class="t-radio__wrapper" id="border-fitnesslevel">
+                    {% for field in quiz_form.fitnesslevel %}
+                    <label class="t-radio__control t-text t-text_xs" style="color: #000000">
+                        {{ field.tag }}
+                        <div class="t-radio__indicator"></div>
+                        {{ field.choice_label}}
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="t-input-error" id="error-fitnesslevel"></div>
+            </div>
+        </div>
+        <div class="t-input-group t-input-group_rd" data-input-lid="1613072823372">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072823372" style="color:#000000;font-weight:400;">Which one best describes you, for your gender?</div>
+            <div class="t-input-block">
+                <div class="t-radio__wrapper" id="border-height">
+                    {% for field in quiz_form.height %}
+                    <label class="t-radio__control t-text t-text_xs" style="color: #000000">
+                        {{ field.tag }}
+                        <div class="t-radio__indicator"></div>
+                        {{ field.choice_label}}
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="t-input-error" id="error-height"></div>
+            </div>
+        </div>
+        <div class="t-form__submit">
+
+          <button class="t-btn t-btn_sm t-form__screen-btn-prev" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;" onclick="prev(2)">
+                <table style="width:100%; height:100%;">
+                    <tbody>
+                        <tr>
+                            <td>Back</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </button>
+
+            <button class="t-btn t-btn_sm t-form__screen-btn-next" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;" onclick="next(2,[['contactsport'],['how'],['fitnesslevel'],['height'] ])">
+                <table style="width:100%; height:100%;">
+                    <tbody>
+                        <tr>
+                            <td>Next</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </button>
+
+
+            <div class="t-form__screen-current-view t-name">
+                <div class="t-form__screen-number-container"><span class="t-form__screen-number_opacity">1</span><span>/</span><span>4</span></div>
+
+
+                <svg class="t-form__screen-progress" style="-webkit-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);" width="30" height="30" viewport="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="t-form__screen-progress-circle" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="0" stroke-dashoffset="0"></circle>
+                    <circle class="t-form__screen-progress-bar" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="62.8319" stroke-dashoffset="47.124" style="stroke-dashoffset: 47.124;"></circle>
+                </svg>
+            </div>
+        </div>
+
+      </section>
+
+
+
+
+
+
+
+      <section id="section-3" style="display:none;">
+        <div class="t-input-group t-input-group_rd" data-input-lid="1613072882477">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072882477" style="color:#000000;font-weight:400;">Which of these are your superpowers?</div>
+            <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613072882477" style="color:#000000;">Choose as many as apply.</div>
+            <div class="t-input-block">
+                <input type="hidden" class="t-checkboxes__hiddeninput js-tilda-rule" name="Which of these are your superpowers" tabindex="-1" value="" data-tilda-req="1">
+                <div class="t-checkboxes__wrapper"  id="border-3-1">
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.flexibility|add_class:"t-checkbox"|attr:"id:flexibility" }}
+                        <div class="t-checkbox__indicator"></div>Flexibility
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.focus|add_class:"t-checkbox"|attr:"id:focus" }}
+                        <div class="t-checkbox__indicator"></div>Focus
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.lower_body|add_class:"t-checkbox"|attr:"id:lbstrength" }}
+                        <div class="t-checkbox__indicator"></div>Lower body strength
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.balance|add_class:"t-checkbox"|attr:"id:balance" }}
+                        <div class="t-checkbox__indicator"></div>Balance
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.endurance|add_class:"t-checkbox"|attr:"id:endurance" }}
+                        <div class="t-checkbox__indicator"></div>Endurance
+                    </label>
+                </div>
+
+                <div class="t-input-error" id="error-3-1"></div>
+            </div>
+        </div>
+        <div class="t-input-group t-input-group_rd" data-input-lid="1613072925827">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072925827" style="color:#000000;font-weight:400;">Which of the below are your weaknesses?</div>
+            <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613072925827" style="color:#000000;">Tick all that are relevant.</div>
+            <div class="t-input-block"> <input type="hidden" class="t-checkboxes__hiddeninput js-tilda-rule" name="Which of the below are your weaknesses" tabindex="-1" value="" data-tilda-req="1">
+                <div class="t-checkboxes__wrapper"  id="border-3-2">
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.speed|add_class:"t-checkbox"|attr:"id:speed" }}
+                        <div class="t-checkbox__indicator"></div>Speed
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.hand_eye_coordination|add_class:"t-checkbox"|attr:"id:hecoordination" }}
+                        <div class="t-checkbox__indicator"></div>Hand-eye coordination
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.upper_body|add_class:"t-checkbox"|attr:"id:ubstrength" }}
+                        <div class="t-checkbox__indicator"></div>Upper body strength
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.foot_eye_coordination|add_class:"t-checkbox"|attr:"id:fecoordination" }}
+                        <div class="t-checkbox__indicator"></div>Foot-eye coordination
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.being_in_water|add_class:"t-checkbox"|attr:"id:biwater" }}
+                        <div class="t-checkbox__indicator"></div>Being in water
+                    </label>
+                </div>
+
+                <div class="t-input-error"  id="error-3-2"></div>
+            </div>
+        </div>
+        <div class="t-input-group t-input-group_rd" data-input-lid="1613072966849">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072966849" style="color:#000000;font-weight:400;">Which of the below characteristics describe you?</div>
+            <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613072966849" style="color:#000000;">Can be multiple.</div>
+            <div class="t-input-block">
+                <input type="hidden" class="t-checkboxes__hiddeninput js-tilda-rule" name="Which of the below characteristics describe you" tabindex="-1" value="" data-tilda-req="1">
+                <div class="t-checkboxes__wrapper"  id="border-3-3">
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.perfectionist|add_class:"t-checkbox"|attr:"id:perfectionist" }}
+                        <div class="t-checkbox__indicator"></div>Perfectionist
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.patient|add_class:"t-checkbox"|attr:"id:patient" }}
+                        <div class="t-checkbox__indicator"></div>Patient
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.high_energy|add_class:"t-checkbox"|attr:"id:henergy" }}
+                        <div class="t-checkbox__indicator"></div>High-energy
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.competitive|add_class:"t-checkbox"|attr:"id:competitive" }}
+                        <div class="t-checkbox__indicator"></div>Competitive
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.thrive_under_pressure|add_class:"t-checkbox"|attr:"id:tupressure" }}
+                        <div class="t-checkbox__indicator"></div>Thrive under pressure
+                    </label>
+
+                </div>
+
+                <div class="t-input-error"  id="error-3-3"></div>
+            </div>
+        </div>
+        <div class="t-input-group t-input-group_rd" data-input-lid="1613072996723">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613072996723" style="color:#000000;font-weight:400;">Which of these workout environments do you enjoy?</div>
+            <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613072996723" style="color:#000000;">Can be multiple.</div>
+            <div class="t-input-block">
+                <input type="hidden" class="t-checkboxes__hiddeninput js-tilda-rule" name="Which of these workout environments do you enjoy" tabindex="-1" value="" data-tilda-req="1">
+                <div class="t-checkboxes__wrapper"  id="border-3-4">
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.tried_and_tested|add_class:"t-checkbox"|attr:"id:tatested" }}
+                        <div class="t-checkbox__indicator"></div>Tried and tested
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.ever_changing|add_class:"t-checkbox"|attr:"id:echanging" }}
+                        <div class="t-checkbox__indicator"></div>Ever-changing
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.centre_of_attention|add_class:"t-checkbox"|attr:"id:coattention" }}
+                        <div class="t-checkbox__indicator"></div>Where I am centre of attention
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.express_myself|add_class:"t-checkbox"|attr:"id:emyself" }}
+                        <div class="t-checkbox__indicator"></div>Where I can express myself
+                    </label>
+
+                    <label class="t-checkbox__control t-text t-text_xs" style="color: #000000">
+                        {{ quiz_form.adrenaline_fuelled|add_class:"t-checkbox"|attr:"id:afuelled" }}
+                        <div class="t-checkbox__indicator"></div>Adrenaline-fuelled
+                    </label>
+                </div>
+                <div class="t-input-error" id="error-3-4"></div>
+            </div>
+        </div>
+        <div class="t-form__submit">
+
+          <button class="t-btn t-btn_sm t-form__screen-btn-prev" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;" onclick="prev(3)">
+                <table style="width:100%; height:100%;">
+                    <tbody>
+                        <tr>
+                            <td>Back</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </button>
+
+            <button class="t-btn t-btn_sm t-form__screen-btn-next" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;" onclick="next(3,[['flexibility','focus','lbstrength','balance','endurance'],['speed','hecoordination','ubstrength','fecoordination','biwater'],
+            ['perfectionist','patient','henergy','competitive','tupressure'],['tatested','echanging','coattention','emyself','afuelled'] ])">
+                <table style="width:100%; height:100%;">
+                    <tbody>
+                        <tr>
+                            <td>Next</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </button>
+
+
+            <div class="t-form__screen-current-view t-name">
+                <div class="t-form__screen-number-container"><span class="t-form__screen-number_opacity">1</span><span>/</span><span>4</span></div>
+
+
+                <svg class="t-form__screen-progress" style="-webkit-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);" width="30" height="30" viewport="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="t-form__screen-progress-circle" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="0" stroke-dashoffset="0"></circle>
+                    <circle class="t-form__screen-progress-bar" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="62.8319" stroke-dashoffset="47.124" style="stroke-dashoffset: 47.124;"></circle>
+                </svg>
+            </div>
+        </div>
+
+
+      </section>
+      <section id="section-4" style="display:none;">
+        <div class="t-input-group t-input-group_rd" data-input-lid="1613073052328">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613073052328" style="color:#000000;font-weight:400;">Optional: How do you identify?</div>
+            <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613073052328" style="color:#000000;">This data helps us make the results more precise in the future.</div>
+            <div class="t-input-block">
+                <div class="t-radio__wrapper">
+                    {% for field in quiz_form.gender %}
+                    <label class="t-radio__control t-text t-text_xs" style="color: #000000">
+                        {{ field.tag }}
+                        <div class="t-radio__indicator"></div>
+                        {{ field.choice_label}}
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="t-input-error"></div>
+            </div>
+        </div>
+
+        <div class="t-input-group t-input-group_rg" data-input-lid="1613073092310">
+            <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1613073092310" style="color:#000000;font-weight:400;">Optional: How old are you?</div>
+            <div class="t-input-subtitle t-descr t-descr_xxs t-opacity_70" data-redactor-toolbar="no" field="li_subtitle__1613073092310" style="color:#000000;">This data helps us make the results more precise in the future.</div>
+            <div class="t-input-block">
+                <div class="t-range__wrapper">
+
+                    {{ quiz_form.age }}
+                    <div class="t-range__value-txt t-descr t-descr_xxs" style="display: none;"></div>
+                    <div class="t-range__interval-txt-wrapper">
+                        <div class="t-range__interval-txt t-range__interval-txt_min t-descr t-descr_xxs" style="color: #000000">5</div>
+                        <div class="t-range__interval-txt t-range__interval-txt_max t-descr t-descr_xxs" style="color: #000000">65</div>
+                    </div>
+                </div>
+
+
+                <link rel="stylesheet" href="{% static "css/tilda-range-1.0.min.css" %}">
+
+                <script src="{% static "js/tilda-range-1.0.min.js" %}"></script>
+
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        try {
+                            setTimeout(function() {
+                                t_input_range_init('280184801', '1613073092310');
+                            }, 500);
+                        } catch (err) {};
+                    });
+                </script>
+
+
+                <div class="t-input-error"></div>
+            </div>
+        </div>
+
+
+        <!--[if IE 8]><style>.t-checkbox__control .t-checkbox, .t-radio__control .t-radio { left: 0px; z-index: 1; opacity: 1;
 }
 .t-checkbox__indicator, .t-radio__indicator { display: none;
 }
 .t-img-select__control .t-img-select { position: static;
-}</style><![endif]--> <style> .t-form__screen-hiderecord{ display: none !important; } </style> <script type="text/javascript"> var script = document.createElement('script'); script.onload = function () { $(document).ready(function() { t_form_splittingOnStep('280184801'); }); }; script.src = "{% static "js/tilda-step-form-1.0.min.js" %}"; document.head.appendChild(script); $('.rec280184801').addClass('t-form__screen-hiderecord'); setTimeout(function() { $('.rec280184801').removeClass('t-form__screen-hiderecord'); }, 1500); </script> <style>#rec280184801 .t-form__screen .t-form__screen-number-container { color: #000000;
-}
-#rec280184801 .t-form__screen .t-form__screen-progress-circle{ stroke: #000000;
-}
-#rec280184801 .t-form__screen .t-form__screen-progress-bar { stroke: #000000;
-}
-#rec280184801 .t-form__screen .t-form__screen-btn-prev,
-#rec280184801 .t-form__screen .t-form__screen-btn-next { color:#ffffff; background-color:#000000; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
-}</style><div class="t-form__errorbox-middle"> <div class="js-errorbox-all t-form__errorbox-wrapper" style="display:none;"> <div class="t-form__errorbox-text t-text t-text_md"> <p class="t-form__errorbox-item js-rule-error js-rule-error-all"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-req"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-email"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-name"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-phone"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-minlength"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-string"></p> </div> </div></div> <div class="t-form__submit"> <button type="submit" class="t-submit" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;" >Send</button> </div> </div> <div class="t-form__errorbox-bottom"> <div class="js-errorbox-all t-form__errorbox-wrapper" style="display:none;"> <div class="t-form__errorbox-text t-text t-text_md"> <p class="t-form__errorbox-item js-rule-error js-rule-error-all"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-req"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-email"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-name"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-phone"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-minlength"></p> <p class="t-form__errorbox-item js-rule-error js-rule-error-string"></p> </div> </div> </div>
+}</style><![endif]-->
+        <style>
+            .t-form__screen-hiderecord {
+                display: none !important;
+            }
+        </style>
+        <style>
+            #rec280184801 .t-form__screen .t-form__screen-number-container {
+                color: #000000;
+            }
+
+            #rec280184801 .t-form__screen .t-form__screen-progress-circle {
+                stroke: #000000;
+            }
+
+            #rec280184801 .t-form__screen .t-form__screen-progress-bar {
+                stroke: #000000;
+            }
+
+            #rec280184801 .t-form__screen .t-form__screen-btn-prev,
+            #rec280184801 .t-form__screen .t-form__screen-btn-next {
+                color: #ffffff;
+                background-color: #000000;
+                border-radius: 5px;
+                -moz-border-radius: 5px;
+                -webkit-border-radius: 5px;
+            }
+        </style>
+
+        <div class="t-form__submit">
+            <button type="submit" class="t-submit" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;">Send</button>
 
 
-
+        </div>
+    </div>
+  </section>
 
 </form>
 

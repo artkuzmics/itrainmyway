@@ -7,8 +7,6 @@ from django import forms
 
 class QuizForm(forms.ModelForm):
 
-
-
     time = forms.ChoiceField(choices=[
                                 ('minutes','Minutes'),
                                 ('hours','Hours'),
@@ -53,11 +51,13 @@ class QuizForm(forms.ModelForm):
                             widget=forms.RadioSelect(attrs={'class': 't-radio js-tilda-rule'}))
 
 
+    age = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'t-range js-tilda-rule','type':'range', 'step': '1', 'min': '5', 'max': '65','value':'1'}), required=False)
+
     class Meta:
         model = Quize
         fields = ('time', 'money', 'alone', 'group', 'family','contactsport','how','fitnesslevel','height',
-                    'flexibility','focus','lower_body_strength','balance','endurance',
-                    'weak_speed','weak_hand_eye_coordination','weak_upper_body_stregth','weak_foot_eye_coordination','weak_being_in_water',
+                    'flexibility','focus','lower_body','balance','endurance',
+                    'speed','hand_eye_coordination','upper_body','foot_eye_coordination','being_in_water',
                     'perfectionist','patient','high_energy','competitive','thrive_under_pressure',
                     'tried_and_tested','ever_changing','centre_of_attention','express_myself','adrenaline_fuelled',
                     'gender','age')

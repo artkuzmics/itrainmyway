@@ -19,16 +19,16 @@ class Quize(models.Model):
     # Superpowers
     flexibility = models.BooleanField()
     focus = models.BooleanField()
-    lower_body_strength = models.BooleanField()
+    lower_body = models.BooleanField()
     balance = models.BooleanField()
     endurance = models.BooleanField()
 
     #Weaknesses
-    weak_speed = models.BooleanField()
-    weak_hand_eye_coordination = models.BooleanField()
-    weak_upper_body_stregth = models.BooleanField()
-    weak_foot_eye_coordination = models.BooleanField()
-    weak_being_in_water = models.BooleanField()
+    speed = models.BooleanField()
+    hand_eye_coordination = models.BooleanField()
+    upper_body = models.BooleanField()
+    foot_eye_coordination = models.BooleanField()
+    being_in_water = models.BooleanField()
 
     #Characteristics
     perfectionist = models.BooleanField()
