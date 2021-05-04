@@ -1,7 +1,20 @@
 from django.db import models
 from django.utils import timezone
 
+
+class Enquirie(models.Model):
+
+    timestamp = models.DateTimeField(default=timezone.now)
+    name = models.CharField(max_length=500)
+    email = models.EmailField(max_length=350)
+    company_name = models.CharField(max_length=500)
+    website = models.URLField(max_length=500)
+    comment = models.TextField()
+
+
 class Quize(models.Model):
+
+    session_key = models.CharField(max_length=300)
 
     timestamp = models.DateTimeField(default=timezone.now)
 
@@ -47,6 +60,12 @@ class Quize(models.Model):
     #Optional
     gender = models.CharField(max_length=100)
     age = models.IntegerField()
+
+
+    # Selected
+
+    selected = models.TextField()
+    likely_to_recommend = models.IntegerField(null=True,blank=True)
 
 
     def __str__(self):

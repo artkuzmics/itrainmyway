@@ -82,6 +82,7 @@ DATABASES = {
     }
 }
 
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

@@ -1,8 +1,17 @@
-from .models import Quize
+from .models import Quize, Enquirie
 from django import forms
 
 
+class EnquiryForm(forms.ModelForm):
 
+
+    company_name = forms.CharField(required=False)
+    website = forms.URLField(required=False)
+    comment = forms.CharField(required=False)
+
+    class Meta:
+        model = Enquirie
+        fields = ('name','email','company_name','website','comment')
 
 
 class QuizForm(forms.ModelForm):

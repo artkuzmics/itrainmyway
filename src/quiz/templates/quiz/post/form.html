@@ -62,7 +62,27 @@ function prev(page){
 
 
 </script>
+<!--/header-->
+<div id="rec280184801" class="r t-rec t-rec_pt_45 t-rec_pb_45" style="padding-top:45px;padding-bottom:45px;background-color:#ffffff;height:70vh " data-animationappear="off" data-record-type="678" data-bg-color="#ffffff" >
+    <!-- t678 -->
+    <div class="t678 ">
+        <div class="t-section__container t-container">
+            <div class="t-col t-col_12">
+                <div class="t-section__topwrapper t-align_center">
+                    <div class="t-section__title t-title t-title_xs" field="btitle">
+                        <div style="color:#000000;" data-customstyle="yes"><span style="font-weight: 500;">Ready. Set. Go!</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+
+
+
+
+        <div class="t-container">
+            <div class="t-col t-col_8 t-prefix_2">
+                <div>
 
 <form id="form280184801" name='form280184801' role="form" action='' method='POST' data-formactiontype="0" data-inputbox=".t-input-group" class="t-form js-form-proccess t-form_inputs-total_13 " data-success-callback="t678_onSuccess">
 
@@ -134,9 +154,17 @@ function prev(page){
                 <div class="t-input-error" id="error-1-3"></div>
             </div>
         </div>
+
+
+
+
+
+
+
+
         <div class="t-form__submit">
 
-          <button class="t-btn t-btn_sm t-form__screen-btn-prev" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; float:left;">
+        <!--<button class="t-btn t-btn_sm t-form__screen-btn-prev" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; float:left;">
                 <table style="width:100%; height:100%;">
                     <tbody>
                         <tr>
@@ -144,13 +172,13 @@ function prev(page){
                         </tr>
                     </tbody>
                 </table>
-            </button>
+            </button>-->
 
             <button class="t-btn t-btn_sm t-form__screen-btn-next" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;float:right;" onclick="next(1,[['time'],['money'],['alone','group','family']])">
                 <table style="width:100%; height:100%;">
                     <tbody>
                         <tr>
-                            <td>Next</td>
+                            <td>Next <img src="{% static "images/arrow_right.png" %}"> </td>
                         </tr>
                     </tbody>
                 </table>
@@ -158,28 +186,24 @@ function prev(page){
 
 
             <div class="t-form__screen-current-view t-name">
-                <div class="t-form__screen-number-container"><span class="t-form__screen-number_opacity">1</span><span>/</span><span>4</span></div>
+                <div class="t-form__screen-number-container" style="border:0px solid;"> <span style="opacity:0.3"> 1/4 </span>
 
-
-                <svg width="30" height="30" viewport="0 0 100 100">
-                    <circle class="t-form__screen-progress-circle" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="0" stroke-dashoffset="0"></circle>
-                    <circle class="t-form__screen-progress-bar" r="10" cx="15" cy="15" fill="black" stroke-dasharray="62.8319" stroke-dashoffset="47.124" style="stroke-dashoffset: 47.124;"></circle>
+                <svg class="t-form__screen-progress" style="-webkit-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);position:relative;top:8px;" width="30" height="30" viewport="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" display="inline-block;" vertical-align="middle;">
+                    <circle class="t-form__screen-progress-circle" stroke="#000000" stroke-width="3px" opacity="0.3" r="10" cx="15" cy="15" fill="none"  stroke-dasharray="0" stroke-dashoffset="0"></circle>
+                    <circle class="t-form__screen-progress-bar" stroke="#333333" stroke-width="3px" r="10" cx="15" cy="15" fill="none" stroke-dasharray="62.8319" stroke-dashoffset="47.124" style="stroke-dashoffset: 47.124;"></circle>
                 </svg>
+
+                </div>
+
+
             </div>
         </div>
 
-        <div >
-            <div class="t-input-block">
 
 
 
 
 
-
-                <div class="t-form-step-divider " data-tilda-form-step-btn-next="Next" data-tilda-form-step-btn-prev="Back"></div>
-                <div class="t-input-error"></div>
-            </div>
-        </div>
       </section>
 
       <section id="section-2" style="display:none;">
@@ -244,23 +268,25 @@ function prev(page){
                 <div class="t-input-error" id="error-height"></div>
             </div>
         </div>
+
+
         <div class="t-form__submit">
 
-          <button class="t-btn t-btn_sm t-form__screen-btn-prev" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;" onclick="prev(2)">
+          <button class="t-btn t-btn_sm t-form__screen-btn-prev" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; float:left;" onclick="prev(2)">
                 <table style="width:100%; height:100%;">
                     <tbody>
                         <tr>
-                            <td>Back</td>
+                            <td><img src="{% static "images/arrow_left.png" %}"> Back</td>
                         </tr>
                     </tbody>
                 </table>
             </button>
 
-            <button class="t-btn t-btn_sm t-form__screen-btn-next" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;" onclick="next(2,[['contactsport'],['how'],['fitnesslevel'],['height'] ])">
+            <button class="t-btn t-btn_sm t-form__screen-btn-next" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;float:right;" onclick="next(2,[['contactsport'],['how'],['fitnesslevel'],['height'] ])">
                 <table style="width:100%; height:100%;">
                     <tbody>
                         <tr>
-                            <td>Next</td>
+                            <td>Next <img src="{% static "images/arrow_right.png" %}"> </td>
                         </tr>
                     </tbody>
                 </table>
@@ -268,15 +294,35 @@ function prev(page){
 
 
             <div class="t-form__screen-current-view t-name">
-                <div class="t-form__screen-number-container"><span class="t-form__screen-number_opacity">1</span><span>/</span><span>4</span></div>
+                <div class="t-form__screen-number-container" style="border:0px solid;"> <span style="opacity:0.3"> 2/4 </span>
+
+        <svg class="t-form__screen-progress" style="-webkit-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);" width="30" height="30" viewport="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+          <circle class="t-form__screen-progress-circle"  stroke="#000000" stroke-width="3px" opacity="0.3" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="0" stroke-dashoffset="0"></circle>
+          <circle class="t-form__screen-progress-bar" stroke="#333333" stroke-width="3px" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="62.8319" stroke-dashoffset="31.416" style="stroke-dashoffset: 31.416;"></circle>
+
+        </svg>
 
 
-                <svg class="t-form__screen-progress" style="-webkit-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);" width="30" height="30" viewport="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <circle class="t-form__screen-progress-circle" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="0" stroke-dashoffset="0"></circle>
-                    <circle class="t-form__screen-progress-bar" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="62.8319" stroke-dashoffset="47.124" style="stroke-dashoffset: 47.124;"></circle>
-                </svg>
+
+
+
+                </div>
+
+
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
 
       </section>
 
@@ -429,24 +475,30 @@ function prev(page){
                 <div class="t-input-error" id="error-3-4"></div>
             </div>
         </div>
+
+
+
+
+
+
         <div class="t-form__submit">
 
-          <button class="t-btn t-btn_sm t-form__screen-btn-prev" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;" onclick="prev(3)">
+          <button class="t-btn t-btn_sm t-form__screen-btn-prev" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; float:left;" onclick="prev(3)">
                 <table style="width:100%; height:100%;">
                     <tbody>
                         <tr>
-                            <td>Back</td>
+                            <td><img src="{% static "images/arrow_left.png" %}"> Back</td>
                         </tr>
                     </tbody>
                 </table>
             </button>
 
-            <button class="t-btn t-btn_sm t-form__screen-btn-next" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;" onclick="next(3,[['flexibility','focus','lbstrength','balance','endurance'],['speed','hecoordination','ubstrength','fecoordination','biwater'],
+            <button class="t-btn t-btn_sm t-form__screen-btn-next" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;float:right;" onclick="next(3,[['flexibility','focus','lbstrength','balance','endurance'],['speed','hecoordination','ubstrength','fecoordination','biwater'],
             ['perfectionist','patient','henergy','competitive','tupressure'],['tatested','echanging','coattention','emyself','afuelled'] ])">
                 <table style="width:100%; height:100%;">
                     <tbody>
                         <tr>
-                            <td>Next</td>
+                            <td>Next <img src="{% static "images/arrow_right.png" %}"> </td>
                         </tr>
                     </tbody>
                 </table>
@@ -454,15 +506,38 @@ function prev(page){
 
 
             <div class="t-form__screen-current-view t-name">
-                <div class="t-form__screen-number-container"><span class="t-form__screen-number_opacity">1</span><span>/</span><span>4</span></div>
+                <div class="t-form__screen-number-container" style="border:0px solid;"> <span style="opacity:0.3"> 3/4 </span>
+
 
 
                 <svg class="t-form__screen-progress" style="-webkit-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);" width="30" height="30" viewport="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <circle class="t-form__screen-progress-circle" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="0" stroke-dashoffset="0"></circle>
-                    <circle class="t-form__screen-progress-bar" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="62.8319" stroke-dashoffset="47.124" style="stroke-dashoffset: 47.124;"></circle>
+
+                  <circle class="t-form__screen-progress-circle" stroke="#000000" stroke-width="3px" opacity="0.3" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="0" stroke-dashoffset="0"></circle>
+                  <circle class="t-form__screen-progress-bar" stroke="#333333" stroke-width="3px" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="62.8319" stroke-dashoffset="15.708" style="stroke-dashoffset: 15.708;"></circle>
+
                 </svg>
+
+                </div>
+
+
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       </section>
@@ -519,6 +594,62 @@ function prev(page){
         </div>
 
 
+        <div class="t-form__submit">
+
+          <button class="t-btn t-btn_sm t-form__screen-btn-prev" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; float:left;" onclick="prev(4)">
+                <table style="width:100%; height:100%;">
+                    <tbody>
+                        <tr>
+                            <td><img src="{% static "images/arrow_left.png" %}"> Back</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </button>
+
+            <button type="submit" class="t-btn t-btn_sm t-form__screen-btn-next" type="button" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;float:right;" >
+                <table style="width:100%; height:100%;">
+                    <tbody>
+                        <tr>
+                            <td>Send </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </button>
+
+
+
+
+
+
+
+            <div class="t-form__screen-current-view t-name">
+                <div class="t-form__screen-number-container" style="border:0px solid;"> <span style="opacity:0.3"> 4/4 </span>
+
+                  <svg class="t-form__screen-progress" style="-webkit-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);" width="30" height="30" viewport="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="t-form__screen-progress-circle" stroke="#000000" stroke-width="3px" opacity="0.3" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="0" stroke-dashoffset="0"></circle>
+                    <circle class="t-form__screen-progress-bar" stroke="#333333" stroke-width="3px" r="10" cx="15" cy="15" fill="transparent" stroke-dasharray="62.8319" stroke-dashoffset="0.000" style="stroke-dashoffset: 0;"></circle>
+
+                  </svg>
+
+                </div>
+
+
+            </div>
+        </div>
+      </section>
+
+
+
+</form>
+
+
+
+
+
+
+
+
+
         <!--[if IE 8]><style>.t-checkbox__control .t-checkbox, .t-radio__control .t-radio { left: 0px; z-index: 1; opacity: 1;
 }
 .t-checkbox__indicator, .t-radio__indicator { display: none;
@@ -553,15 +684,74 @@ function prev(page){
             }
         </style>
 
-        <div class="t-form__submit">
+        <!--<div class="t-form__submit">
             <button type="submit" class="t-submit" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;">Send</button>
 
 
-        </div>
+        </div>-->
     </div>
-  </section>
 
-</form>
 
+
+<style>
+    #rec280184801 input::-webkit-input-placeholder {
+        color: #000000;
+        opacity: 0.5;
+    }
+
+    #rec280184801 input::-moz-placeholder {
+        color: #000000;
+        opacity: 0.5;
+    }
+
+    #rec280184801 input:-moz-placeholder {
+        color: #000000;
+        opacity: 0.5;
+    }
+
+    #rec280184801 input:-ms-input-placeholder {
+        color: #000000;
+        opacity: 0.5;
+    }
+
+    #rec280184801 textarea::-webkit-input-placeholder {
+        color: #000000;
+        opacity: 0.5;
+    }
+
+    #rec280184801 textarea::-moz-placeholder {
+        color: #000000;
+        opacity: 0.5;
+    }
+
+    #rec280184801 textarea:-moz-placeholder {
+        color: #000000;
+        opacity: 0.5;
+    }
+
+    #rec280184801 textarea:-ms-input-placeholder {
+        color: #000000;
+        opacity: 0.5;
+    }
+</style>
+</div>
+</div>
+</div>
+</div>
+<style>
+#rec280184801 .t-btn[data-btneffects-first],
+#rec280184801 .t-btn[data-btneffects-second],
+#rec280184801 .t-submit[data-btneffects-first],
+#rec280184801 .t-submit[data-btneffects-second] {
+position: relative;
+overflow: hidden;
+-webkit-transform: translate3d(0, 0, 0);
+transform: translate3d(0, 0, 0);
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function() {});
+</script>
+</div>
 
 {% endblock %}
