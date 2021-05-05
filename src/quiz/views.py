@@ -4,6 +4,7 @@ from .models import Quize
 from .formula import *
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect, reverse
+import json
 
 
 
@@ -36,7 +37,7 @@ def partners(request):
 
 def results(request):
 
-    sports = ['Ice Skating', 'Latin Dancing', 'Pole fitness', 'Canoeing', 'Running', 'Cycling', 'Rock Climbing', 'Acro Yoga', 'Trampolining']
+    sports = ['Ice_Skating', 'Latin_Dancing', 'Pole_fitness', 'Canoeing', 'Running', 'Cycling', 'Rock_Climbing', 'Acro_Yoga', 'Trampolining']
 
     if request.method == 'POST':
 
@@ -44,13 +45,30 @@ def results(request):
             print(request.POST)
             print(request.session.session_key)
 
-            chosen_sports = list(dict(request.POST).keys())[1:-1]
+            chosen_sports = list(dict(request.POST).values())[1:-1]
 
-            print(chosen_sports)
+            yes = ""
+            no = ""
 
-            return redirect(reverse('quiz:results'))
+            for sport in chosen_sports:
+                json_acceptable = sport[0].replace("'","\"")
+                s = json.loads(json_acceptable)
 
-    return render(request,'quiz/post/result.html',{'sports':sports,})
+                if list(s.keys())[0] == "yes":
+                    yes += s["yes"]
+                    yes += ", "
+                else:
+                    no += s["no"]
+                    no += ", "
+
+
+            print('yes',yes)
+            print('no',no)
+
+            return render(request, 'quiz/post/thankyou.html')
+
+
+    return render(request,'quiz/post/results.html',{'sports':sports,})
 
 
 def quiz(request):
@@ -60,15 +78,24 @@ def quiz(request):
 
             quiz_entry = get_object_or_404(Quize, session_key=request.session.session_key)
 
-            chosen_sports = list(dict(request.POST).keys())[1:-1]
+            chosen_sports = list(dict(request.POST).values())[1:-1]
 
-            selected = ""
-            for i, sport in enumerate(chosen_sports):
-                selected += sport
-                if i < len(chosen_sports)-1:
-                    selected += ", "
+            yes = ""
+            no = ""
 
-            quiz_entry.selected = selected
+            for sport in chosen_sports:
+                json_acceptable = sport[0].replace("'","\"")
+                s = json.loads(json_acceptable)
+
+                if list(s.keys())[0] == "yes":
+                    yes += s["yes"]
+                    yes += ", "
+                else:
+                    no += s["no"]
+                    no += ", "
+
+            quiz_entry.yes = yes
+            quiz_entry.no = no            
             quiz_entry.likely_to_recommend = request.POST["likely to recommend"]
 
             quiz_entry.save()
@@ -90,6 +117,8 @@ def quiz(request):
 
             sports = formula(request.POST.dict())
 
+            print(sports)
+
             quiz_form = QuizForm(data=request.POST)
             if quiz_form.is_valid():
                 new_entry = quiz_form.save(commit=False)
@@ -99,7 +128,7 @@ def quiz(request):
 
                 print(sports)
 
-                return render(request,'quiz/post/result.html',{'sports':sports,})
+                return render(request,'quiz/post/results.html',{'sports':sports,})
 
 
     quiz_form = QuizForm()

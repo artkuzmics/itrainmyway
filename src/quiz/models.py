@@ -64,7 +64,8 @@ class Quize(models.Model):
 
     # Selected
 
-    selected = models.TextField()
+    yes = models.TextField(null=True,blank=True)
+    no = models.TextField(null=True,blank=True)
     likely_to_recommend = models.IntegerField(null=True,blank=True)
 
 

@@ -57,7 +57,7 @@ class QuizForm(forms.ModelForm):
                                 ('female','Female'),
                                 ('other','Other'),
                                 ('na','Prefer not to say')],
-                            widget=forms.RadioSelect(attrs={'class': 't-radio js-tilda-rule'}))
+                            widget=forms.RadioSelect(attrs={'class': 't-radio js-tilda-rule'}), required=False)
 
 
     age = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'t-range js-tilda-rule','type':'range', 'step': '1', 'min': '5', 'max': '65','value':'1'}), required=False)

@@ -138,12 +138,23 @@ def formula(quiz):
 
 
 
-    longlist.append(["Running", "Cycling", "Rock Climbing", "Acro Yoga", "Trampolining"])
+    longlist.append(["Running", "Cycling", "Rock_Climbing", "Acro_Yoga", "Trampolining"])
+
 
     # Flatten list
-    longlist = [item for sublist in longlist for item in sublist]
+    flatten = []
+    for sublist in longlist:
+        if type(sublist) == list:
+            for item in sublist:
+                flatten.append(item)
+        else:
+            flatten.append(sublist)
+
+    longlist = flatten
+
 
     #Remove duplicates
     longlist = [sport for i, sport in enumerate(longlist) if sport not in longlist[:i]]
 
-    return longlist[:5]
+
+    return longlist[:6]

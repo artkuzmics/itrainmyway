@@ -1,0 +1,388 @@
+{% extends "quiz/page17231522.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Result {% endblock %}
+
+{% block content %}
+
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+
+
+
+<script>
+
+function select(label,button){
+  console.log('entry',label.id,button)
+
+  if (button.slice(0,1) == 'y'){
+    other_button = 'n-'+button.slice(2,button.length)
+  } else {
+    other_button = 'y-'+button.slice(2,button.length)
+  }
+
+
+  if (document.getElementById(button).checked){
+    console.log('checked', button)
+
+    document.getElementById(other_button).checked = false;
+
+
+
+    document.getElementById('vis-'+button).style.cssText= "color:#ffffff;border:1px solid #000000;background-color:#000000;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px;font-family:Neue;font-weight:600;text-transform:uppercase;cursor: pointer;"
+    document.getElementById('vis-'+other_button).style.cssText= "color:#000000;border:1px solid #000000;background-color:#ffffff;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px;font-family:Neue;font-weight:600;text-transform:uppercase;cursor: pointer;"
+
+
+
+  } else {
+
+
+    console.log('not checked', button)
+
+    document.getElementById('vis-'+button).style.cssText= "color:#000000;border:1px solid #000000;background-color:#ffffff;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px;font-family:Neue;font-weight:600;text-transform:uppercase;cursor: pointer;"
+
+  }
+
+
+}
+
+
+function hide(element){
+
+
+card = 'Card '+element
+
+document.getElementById(card).style.display = "none"
+
+
+
+}
+
+
+</script>
+
+
+<style>
+
+input:checked {
+
+  color:red
+
+}
+
+</style>
+
+
+<form method="post">{% csrf_token %}
+<div id="rec287139366" class="r t-rec t-rec_pt_90 t-rec_pb_90" style="padding-top:90px;padding-bottom:90px;background-color:#ffffff; " data-animationappear="off" data-record-type="923" data-bg-color="#ffffff">
+    <!-- t923 -->
+    <div class="t923 t923__witharrows">
+        <div class="t-section__container t-container">
+            <div class="t-col t-col_12">
+                <div class="t-section__topwrapper t-align_left">
+                    <div class="t-section__title t-title t-title_xs" field="btitle">
+                        <div style="font-size:40px;color:#000000;" data-customstyle="yes"><span style="font-weight: 700;">SWIPE FOR RESULTS</span></div>
+                    </div>
+                    <div class="t-section__descr t-descr t-descr_xl" field="bdescr">
+                        <div style="font-size:22px;color:#000000;" data-customstyle="yes"><span style="font-weight: 500;">Which activities would you try? <br />Choose an option underneath each image!</span><br /></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="t-slds" style="visibility: hidden;">
+            <div class="t-slds__main t-container">
+                <div class="t-slds__container">
+                    <div class="t-slds__items-wrapper t-slds__nocycle t-slds_animated-fast" data-slider-items-in-row="3" data-slider-transition="300" data-slider-with-cycle="false" data-slider-correct-height="true" data-auto-correct-mobile-width="false">
+
+
+
+
+                        {% for sport in sports %}
+
+                        <div class="t-slds__item t-slds__item_active" data-slide-index="1" id="Card {{ sport }}">
+                            <div class="t923__width_12 t-margin_auto t-width">
+                                <div class="t923__slds-wrapper t-slds__wrapper t-align_center">
+                                    <div class="t923__col t-col t-align_center" style="width: 360px">
+                                        <div class="t923__wrapper" style="border-radius:5px;" data-blocks-per-row="3">
+                                            <div class="t923__imgwrapper t923__imgwrapper_9-16">
+                                                <meta itemprop="image" content='{% static 'images/'|add:sport|add:'.jpg' %}'>
+
+                                                <div class="t923__bgimg t-bgimg" bgimgfield="li_img__1571907907758" data-original='{% static 'images/'|add:sport|add:'.jpg' %}' style="background-image:url('{% static 'images/'|add:sport|add:'.jpg' %}');"></div>
+                                            </div>
+                                            <div class="t923__content">
+                                                <div class="t923__textwrapper t923__paddingsmall"> </div>
+                                                <div class="t923__btn-wrapper t923__paddingsmall">
+
+                                                <!--  <a href="" class="t923__btn t923__btn t-btn t-btn_sm" style="color:#ffffff;border:1px solid #000000;background-color:#000000;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px;font-family:Neue;font-weight:600;text-transform:uppercase;"> -->
+
+
+
+                                                      <label class="t923__btn t923__btn t-btn_sm"  style="color:#000000;border:1px solid #000000;background-color:#ffffff;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px;font-family:Neue;font-weight:600;text-transform:uppercase;cursor: pointer;" onClick="select(this,'y-{{ sport }}')" id="vis-y-{{ sport }}" >
+                                                      <input type="checkbox" value="{'yes':'{{ sport }}'}" hidden="" name="{{ sport }}"  id="y-{{ sport }}">
+
+                                                        <table style="width:100%; height:100%;">
+                                                            <tr>
+
+                                                                <td>Sounds good!</td>
+                                                            </tr>
+                                                        </table>
+
+                                                      </label>
+
+
+
+                                                  <!--  </a> -->
+
+                                                    <label class="t923__btn t923__btn_second t-btn_sm" style="color:#000000;border:1px solid #000000;background-color:#ffffff;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px;font-family:Neue;font-weight:600;text-transform:uppercase;cursor: pointer;" onClick="select(this,'n-{{ sport }}')" id="vis-n-{{ sport }}">
+                                                    <input type="checkbox" value="{'no':'{{ sport }}'}" hidden="" name="{{ sport }}"  id="n-{{ sport }}">
+                                                        <table style="width:100%; height:100%;">
+                                                            <tr>
+                                                                <td>Not for me</td>
+                                                            </tr>
+                                                        </table>
+
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+                <div class="t-slds__arrow_container t-slds__nocycle ">
+                    <div class="t-slds__arrow_wrapper t-slds__arrow_wrapper-left" data-slide-direction="left">
+                        <div class="t-slds__arrow t-slds__arrow-left t-slds__arrow-withbg" style="width: 60px; height: 60px;border: 2px solid #000000;background-color: rgba(255,255,255,1);">
+                            <div class="t-slds__arrow_body t-slds__arrow_body-left" style="width: 16px;"> <svg style="display: block" viewBox="0 0 16.6 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <desc>Left</desc>
+                                    <polyline fill="none" stroke="#000000" stroke-linejoin="butt" stroke-linecap="butt" stroke-width="2" points="1,1 15,15 1,29" />
+                                </svg> </div>
+                        </div>
+                    </div>
+                    <div class="t-slds__arrow_wrapper t-slds__arrow_wrapper-right" data-slide-direction="right">
+                        <div class="t-slds__arrow t-slds__arrow-right t-slds__arrow-withbg" style="width: 60px; height: 60px;border: 2px solid #000000;background-color: rgba(255,255,255,1);">
+                            <div class="t-slds__arrow_body t-slds__arrow_body-right" style="width: 16px;"> <svg style="display: block" viewBox="0 0 16.6 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <desc>Right</desc>
+                                    <polyline fill="none" stroke="#000000" stroke-linejoin="butt" stroke-linecap="butt" stroke-width="2" points="1,1 15,15 1,29" />
+                                </svg> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                t_onFuncLoad('t_sldsInit', function() {
+                    t_sldsInit('287139366');
+                });
+            });
+        </script>
+        <style type="text/css">
+            #rec287139366 .t-slds__bullet_active .t-slds__bullet_body {
+                background-color: #222 !important;
+            }
+
+            #rec287139366 .t-slds__bullet:hover .t-slds__bullet_body {
+                background-color: #222 !important;
+            }
+        </style>
+    </div>
+    <!--[if (IE 8)|(IE 9)]> <style> #rec287139366 .t923__slds-wrapper .t923__col{ display: block; margin: 0 auto; float: none; } </style><![endif]-->
+    <script>
+        $(document).ready(function() {
+            t923_init('287139366');
+        });
+    </script>
+    <style>
+        #rec287139366 .t-btn:not(.t-animate_no-hover):hover {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border-color: #000000 !important;
+        }
+
+        #rec287139366 .t-btn:not(.t-animate_no-hover) {
+            -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+    </style>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div id="rec287261392" class="r t-rec t-rec_pt_30 t-rec_pb_30" style="padding-top:30px;padding-bottom:30px; " data-animationappear="off" data-record-type="678">
+    <!-- t678 -->
+    <div class="t678 ">
+        <div class="t-container">
+            <div class="t-col t-col_12 ">
+                <div>
+
+
+
+
+
+                <!--    <form id="form287261392" name='form287261392' role="form" action='' method='POST' data-formactiontype="0" data-inputbox=".t-input-group" class="t-form js-form-proccess t-form_inputs-total_1 " data-success-callback="t678_onSuccess">-->
+
+
+
+                        <div class="js-successbox t-form__successbox t-text t-text_md" style="display:none;"></div>
+                        <div class="t-form__inputsbox">
+                            <div class="t-input-group t-input-group_rg" data-input-lid="1493283059688">
+                                <div class="t-input-title t-descr t-descr_md" data-redactor-toolbar="no" field="li_title__1493283059688" style="font-weight:700;">How likely are you to recommend this quiz to a friend?</div>
+                                <div class="t-input-block">
+                                    <div class="t-range__wrapper"> <input name="likely to recommend" class="t-range js-tilda-rule" type="range" min="0" max="10" step="1" value="1">
+                                        <div class="t-range__value-txt t-descr t-descr_xxs" style="display: none;"></div>
+                                        <div class="t-range__interval-txt-wrapper">
+                                            <div class="t-range__interval-txt t-range__interval-txt_min t-descr t-descr_xxs">0</div>
+                                            <div class="t-range__interval-txt t-range__interval-txt_max t-descr t-descr_xxs">10</div>
+                                        </div>
+                                    </div>
+
+
+                                    <link rel="stylesheet" href="{% static "css/tilda-range-1.0.min.css" %}">
+
+                                    <script src="{% static "js/tilda-range-1.0.min.js" %}"></script>
+
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function() {
+                                            try {
+                                                setTimeout(function() {
+                                                    t_input_range_init('287261392', '1493283059688');
+                                                }, 500);
+                                            } catch (err) {};
+                                        });
+                                    </script>
+                                    <div class="t-input-error"></div>
+                                </div>
+                            </div>
+                            <div class="t-form__errorbox-middle">
+                                <div class="js-errorbox-all t-form__errorbox-wrapper" style="display:none;">
+                                    <div class="t-form__errorbox-text t-text t-text_md">
+                                        <p class="t-form__errorbox-item js-rule-error js-rule-error-all"></p>
+                                        <p class="t-form__errorbox-item js-rule-error js-rule-error-req"></p>
+                                        <p class="t-form__errorbox-item js-rule-error js-rule-error-email"></p>
+                                        <p class="t-form__errorbox-item js-rule-error js-rule-error-name"></p>
+                                        <p class="t-form__errorbox-item js-rule-error js-rule-error-phone"></p>
+                                        <p class="t-form__errorbox-item js-rule-error js-rule-error-minlength"></p>
+                                        <p class="t-form__errorbox-item js-rule-error js-rule-error-string"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="t-form__submit"> <button type="submit" class="t-submit" style="color:#ffffff;background-color:#000000;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;">Submit</button> </div>
+                        </div>
+
+
+
+                    <!--    <div class="t-form__errorbox-bottom">
+                            <div class="js-errorbox-all t-form__errorbox-wrapper" style="display:none;">
+                                <div class="t-form__errorbox-text t-text t-text_md">
+                                    <p class="t-form__errorbox-item js-rule-error js-rule-error-all"></p>
+                                    <p class="t-form__errorbox-item js-rule-error js-rule-error-req"></p>
+                                    <p class="t-form__errorbox-item js-rule-error js-rule-error-email"></p>
+                                    <p class="t-form__errorbox-item js-rule-error js-rule-error-name"></p>
+                                    <p class="t-form__errorbox-item js-rule-error js-rule-error-phone"></p>
+                                    <p class="t-form__errorbox-item js-rule-error js-rule-error-minlength"></p>
+                                    <p class="t-form__errorbox-item js-rule-error js-rule-error-string"></p>
+                                </div>
+                            </div>
+                        </div>-->
+
+                    <style>
+                        #rec287261392 input::-webkit-input-placeholder {
+                            color: #000000;
+                            opacity: 0.5;
+                        }
+
+                        #rec287261392 input::-moz-placeholder {
+                            color: #000000;
+                            opacity: 0.5;
+                        }
+
+                        #rec287261392 input:-moz-placeholder {
+                            color: #000000;
+                            opacity: 0.5;
+                        }
+
+                        #rec287261392 input:-ms-input-placeholder {
+                            color: #000000;
+                            opacity: 0.5;
+                        }
+
+                        #rec287261392 textarea::-webkit-input-placeholder {
+                            color: #000000;
+                            opacity: 0.5;
+                        }
+
+                        #rec287261392 textarea::-moz-placeholder {
+                            color: #000000;
+                            opacity: 0.5;
+                        }
+
+                        #rec287261392 textarea:-moz-placeholder {
+                            color: #000000;
+                            opacity: 0.5;
+                        }
+
+                        #rec287261392 textarea:-ms-input-placeholder {
+                            color: #000000;
+                            opacity: 0.5;
+                        }
+                    </style>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        #rec287261392 .t-btn[data-btneffects-first],
+        #rec287261392 .t-btn[data-btneffects-second],
+        #rec287261392 .t-submit[data-btneffects-first],
+        #rec287261392 .t-submit[data-btneffects-second] {
+            position: relative;
+            overflow: hidden;
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {});
+    </script>
+</div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
